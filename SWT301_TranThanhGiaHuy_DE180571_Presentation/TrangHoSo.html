@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Cập Nhật Hồ Sơ</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #fcfcfc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 400px; }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { font-weight: bold; font-size: 14px; margin-bottom: 5px; display: block; }
+        input[type="text"], select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .radio-group { display: flex; gap: 15px; }
+        button { width: 100%; padding: 10px; background-color: #ff9800; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-top: 15px; }
+        button:hover { background-color: #e68a00; }
+        .error { color: red; font-size: 13px; display: block; margin-top: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cập Nhật Hồ Sơ</h2>
+        
+        <div class="form-group">
+            <label>Họ và tên (*):</label>
+            <input type="text" id="fullname" placeholder="Nhập họ tên...">
+            <span id="name_error" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Số điện thoại (*):</label>
+            <input type="text" id="phone" placeholder="Nhập sđt 10 số...">
+            <span id="phone_error" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Giới tính (*):</label>
+            <div class="radio-group">
+                <input type="radio" name="gender" id="gender_male" value="Nam"> Nam
+                <input type="radio" name="gender" id="gender_female" value="Nữ"> Nữ
+            </div>
+            <span id="gender_error" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Thành phố (*):</label>
+            <select id="city">
+                <option value="">-- Chọn thành phố --</option>
+                <option value="HN">Hà Nội</option>
+                <option value="DN">Đà Nẵng</option>
+                <option value="HCM">TP. Hồ Chí Minh</option>
+            </select>
+            <span id="city_error" class="error"></span>
+        </div>
+
+        <button id="update_btn">Lưu Thay Đổi</button>
+    </div>
+
+    <script>
+        document.getElementById('update_btn').onclick = function() {
+            // Xóa thông báo lỗi cũ
+            document.getElementById('name_error').innerText = "";
+            document.getElementById('phone_error').innerText = "";
+            document.getElementById('city_error').innerText = "";
+            document.getElementById('gender_error').innerText = "";
+            
+            let name = document.getElementById('fullname').value.trim();
+            let phone = document.getElementById('phone').value.trim();
+            let city = document.getElementById('city').value;
+            let genderSelected = document.querySelector('input[name="gender"]:checked');
+
+            let isValid = true;
+
+            // 1. Validate Họ Tên
+            let specialCharRegex = /[^a-zA-ZÀ-ỹ\s]/; // Chỉ cho phép chữ cái và khoảng trắng
+            if (name === "") {
+                document.getElementById('name_error').innerText = "Họ tên không được để trống";
+                isValid = false;
+            } else if (specialCharRegex.test(name)) {
+                document.getElementById('name_error').innerText = "Họ tên không được chứa số hoặc ký tự đặc biệt";
+                isValid = false;
+            }
+
+            // 2. Validate Số điện thoại
+            if (phone === "") {
+                document.getElementById('phone_error').innerText = "Số điện thoại không được để trống";
+                isValid = false;
+            } else if (isNaN(phone)) {
+                document.getElementById('phone_error').innerText = "Số điện thoại chỉ được chứa chữ số";
+                isValid = false;
+            } else if (!phone.startsWith("0")) {
+                document.getElementById('phone_error').innerText = "Số điện thoại phải bắt đầu bằng số 0";
+                isValid = false;
+            } else if (phone.length !== 10) {
+                document.getElementById('phone_error').innerText = "Số điện thoại phải có đúng 10 số";
+                isValid = false;
+            }
+
+            // 3. Validate Giới tính
+            if (!genderSelected) {
+                document.getElementById('gender_error').innerText = "Vui lòng chọn giới tính";
+                isValid = false;
+            }
+
+            // 4. Validate Thành phố
+            if (city === "") {
+                document.getElementById('city_error').innerText = "Vui lòng chọn một thành phố";
+                isValid = false;
+            }
+
+            // Nếu tất cả đều đúng
+            if(isValid) {
+                alert("Cập nhật hồ sơ thành công!");
+            }
+        };
+    </script>
+</body>
+</html>

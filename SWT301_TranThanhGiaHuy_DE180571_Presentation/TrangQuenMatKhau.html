@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quên Mật Khẩu</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background-color: white; padding: 30px 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 350px; text-align: center; }
+        h2 { color: #333; margin-bottom: 10px; }
+        p { color: #666; font-size: 14px; margin-bottom: 20px; }
+        input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; margin-bottom: 5px; }
+        button { width: 100%; padding: 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #c82333; }
+        .error { color: red; font-size: 13px; display: block; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Khôi Phục Mật Khẩu</h2>
+        <p>Nhập email của bạn để nhận đường link đặt lại mật khẩu.</p>
+        
+        <div style="text-align: left;">
+            <input type="text" id="reset_email" placeholder="Nhập email đã đăng ký...">
+            <span id="reset_email_error" class="error"></span>
+        </div>
+        
+        <button id="reset_btn">Gửi Link Khôi Phục</button>
+    </div>
+
+    <script>
+        document.getElementById('reset_btn').onclick = function() {
+            document.getElementById('reset_email_error').innerText = "";
+            let email = document.getElementById('reset_email').value.trim();
+
+            if (email === "") {
+                document.getElementById('reset_email_error').innerText = "Vui lòng nhập email";
+            } else if (!email.includes("@")) {
+                document.getElementById('reset_email_error').innerText = "Email không hợp lệ";
+            } else if (email !== "test@gmail.com") {
+                // Giả lập chỉ có test@gmail.com là có trong hệ thống
+                document.getElementById('reset_email_error').innerText = "Không tìm thấy tài khoản với email này";
+            } else {
+                alert("Đường link khôi phục đã được gửi vào hòm thư của bạn!");
+            }
+        };
+    </script>
+</body>
+</html>
